@@ -17,6 +17,7 @@
 #include <linux/module.h>
 #include <linux/of.h>
 #include <linux/opp.h>
+#include <linux/cpu.h>
 #include <linux/platform_device.h>
 #include <linux/regulator/consumer.h>
 #include <linux/slab.h>
@@ -194,7 +195,7 @@ static int cpu0_cpufreq_probe(struct platform_device *pdev)
 		goto out_put_parent;
 	}
 
-	cpu_dev = &pdev->dev;
+	cpu_dev = get_cpu_device(0);
 	cpu_dev->of_node = np;
 
 	cpu_reg = devm_regulator_get(cpu_dev, "cpu0");
@@ -220,10 +221,13 @@ static int cpu0_cpufreq_probe(struct platform_device *pdev)
 		goto out_put_node;
 	}
 
-	ret = of_init_opp_table(cpu_dev);
-	if (ret) {
-		pr_err("failed to init OPP table: %d\n", ret);
-		goto out_put_node;
+	ret = opp_get_opp_count(cpu_dev);
+	if (ret < 0) {
+		ret = of_init_opp_table(cpu_dev);
+		if (ret) {
+			pr_err("failed to init OPP table: %d\n", ret);
+			goto out_put_node;
+		}
 	}
 
 	ret = opp_init_cpufreq_table(cpu_dev, &freq_table);

@@ -1,0 +1,24 @@
+/*
+ * MARVELL BERLIN2DTV MK board device tree source
+ *
+ * Author:	Jisheng Zhang <jszhang@marvell.com>
+ * Copyright (c) 2013 Marvell International Ltd.
+ *		http://www.marvell.com
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+*/
+
+/dts-v1/;
+/include/ "berlin2q.dtsi"
+
+/ {
+	model = "MARVELL BG2DTV MK board based on BERLIN2DTV";
+	compatible = "marvell,berlin2dtv-mk", "marvell,berlin2dtv", "marvell,berlin";
+	soc {
+		usb@F7A30000 {
+			status = "disabled";
+		};
+	};
+};

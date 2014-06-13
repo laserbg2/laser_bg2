@@ -97,6 +97,15 @@ config SATA_AHCI_PLATFORM
 
 	  If unsure, say N.
 
+config SATA_AHCI_BERLIN
+	tristate "Marvell Berlin AHCI SATA support"
+	depends on SATA_AHCI_PLATFORM
+	help
+	  This option enables support for the Marvell Berlin SoC's
+	  onboard AHCI SATA.
+
+	  If unsure, say N.
+
 config SATA_FSL
 	tristate "Freescale 3.0Gbps SATA support"
 	depends on FSL_SOC

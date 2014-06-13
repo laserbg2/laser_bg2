@@ -829,6 +829,7 @@ int dw_spi_add_host(struct dw_spi *dws)
 	master->cleanup = dw_spi_cleanup;
 	master->setup = dw_spi_setup;
 	master->transfer = dw_spi_transfer;
+	master->dev.of_node = dws->parent_dev->of_node;
 
 	/* Basic HW init */
 	spi_hw_init(dws);

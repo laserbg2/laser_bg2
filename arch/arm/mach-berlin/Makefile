@@ -1,0 +1,16 @@
+obj-y += berlin.o firmware.o tz_nw_fastcall.o
+obj-$(CONFIG_PM_OPP) += opp.o
+obj-$(CONFIG_SMP) += platsmp.o headsmp.o
+obj-$(CONFIG_HOTPLUG_CPU) += hotplug.o
+obj-$(CONFIG_BERLIN_PXA3XX_NFC) += modules/nfc/
+obj-$(CONFIG_BERLIN_SM) += modules/sm/
+obj-$(CONFIG_BERLIN_IR) += modules/ir/
+obj-$(CONFIG_BERLIN_GPU) += modules/gpu/
+obj-$(CONFIG_BERLIN_SDIO_BT_CHAR_8777) += modules/sd8777_mbtc/
+obj-$(CONFIG_BERLIN_SDIO_WLAN_8777) += modules/wlan_sd8777/
+obj-$(CONFIG_BERLIN_SDIO_WLAN_8801) += modules/wlan_sd8801/
+obj-$(CONFIG_BERLIN_SDIO_WLAN_8897) += modules/wlan_sd8897/
+obj-$(CONFIG_BERLIN_SDIO_BT_CHAR_8897) += modules/sd8897_mbtc/
+obj-$(CONFIG_BERLIN_USB_WLAN_8897) += modules/wlan_usb8897/
+obj-$(CONFIG_BERLIN_USB_BT_CHAR_8897) += modules/usb8897_mbtc/
+obj-$(CONFIG_BERLIN_USB_FW_DNLD) += modules/usbfwdnld/

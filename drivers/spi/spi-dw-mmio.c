@@ -16,6 +16,8 @@
 #include <linux/spi/spi.h>
 #include <linux/scatterlist.h>
 #include <linux/module.h>
+#include <linux/of.h>
+#include <linux/of_platform.h>
 
 #include "spi-dw.h"
 
@@ -31,7 +33,7 @@ static int dw_spi_mmio_probe(struct platform_device *pdev)
 	struct dw_spi_mmio *dwsmmio;
 	struct dw_spi *dws;
 	struct resource *mem, *ioarea;
-	int ret;
+	int ret, val;
 
 	dwsmmio = kzalloc(sizeof(struct dw_spi_mmio), GFP_KERNEL);
 	if (!dwsmmio) {
@@ -81,6 +83,11 @@ static int dw_spi_mmio_probe(struct platform_device *pdev)
 	dws->parent_dev = &pdev->dev;
 	dws->bus_num = 0;
 	dws->num_cs = 4;
+	if (pdev->dev.of_node) {
+		dws->bus_num = of_alias_get_id(pdev->dev.of_node, "spi");
+		if (of_property_read_u32(pdev->dev.of_node, "num-cs", &val))
+			dws->num_cs = val;
+	}
 	dws->max_freq = clk_get_rate(dwsmmio->clk);
 
 	ret = dw_spi_add_host(dws);
@@ -127,12 +134,19 @@ static int dw_spi_mmio_remove(struct platform_device *pdev)
 	return 0;
 }
 
+static const struct of_device_id dw_spi_mmio_of_match[] = {
+	{ .compatible = "snps,designware-spi", },
+	{}
+};
+MODULE_DEVICE_TABLE(of, dw_spi_mmio_of_match);
+
 static struct platform_driver dw_spi_mmio_driver = {
 	.probe		= dw_spi_mmio_probe,
 	.remove		= dw_spi_mmio_remove,
 	.driver		= {
 		.name	= DRIVER_NAME,
 		.owner	= THIS_MODULE,
+		.of_match_table = dw_spi_mmio_of_match,
 	},
 };
 module_platform_driver(dw_spi_mmio_driver);

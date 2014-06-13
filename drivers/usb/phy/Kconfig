@@ -16,6 +16,14 @@ menuconfig USB_PHY
 	  If you're not sure if this applies to you, it probably doesn't;
 	  say N here.
 
+config USB_OTG_WAKELOCK
+	bool "Hold a wakelock when USB connected"
+	depends on WAKELOCK
+	select USB_OTG_UTILS
+	help
+	  Select this to automatically hold a wakelock when USB is
+	  connected, preventing suspend.
+
 if USB_PHY
 
 #
@@ -28,6 +36,12 @@ config AB8500_USB
 	  Enable this to support the USB OTG transceiver in AB8500 chip.
 	  This transceiver supports high and full speed devices plus,
 	  in host mode, low speed.
+
+config BERLIN_USBPHY
+	tristate "Marvell Berlin USB PHY support"
+	depends on ARCH_BERLIN
+	help
+	  Enable this to support the Marvell Berlin USB PHY.
 
 config FSL_USB2_OTG
 	bool "Freescale USB OTG Transceiver Driver"

@@ -424,6 +424,10 @@ config TI_DAC7512
 	  This driver can also be built as a module. If so, the module
 	  will be called ti_dac7512.
 
+config UID_STAT
+	bool "UID based statistics tracking exported to /proc/uid_stat"
+	default n
+
 config VMWARE_BALLOON
 	tristate "VMware Balloon Driver"
 	depends on X86 && HYPERVISOR_GUEST
@@ -517,6 +521,23 @@ config LATTICE_ECP3_CONFIG
 	  or loading) of the Lattice ECP3 FPGA family via SPI.
 
 	  If unsure, say N.
+
+config FLASH_TS
+	bool  "Flash-based transactional key-value store"
+	depends on MTD
+	select CRC32
+	default n
+
+config FLASH_TS_PARTITION
+	string "MTD partition containing store"
+	depends on FLASH_TS
+	default "fts"
+
+config EMMC_TS
+	bool "eMMC-based transactional key-value store"
+	depends on MMC
+	select CRC32
+	default n
 
 config SRAM
 	bool "Generic on-chip SRAM driver"
